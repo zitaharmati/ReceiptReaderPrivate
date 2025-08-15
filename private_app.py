@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-api_key = os.getenv("GROQ_API_KEY")
-password = os.getenv("PASSWORD")
-url_part=os.getenv("URL_PART")
+api_key = st.secrets["groqapi"]
+password = st.secrets["password"]
+url_part=st.secrets["url_part"]
 
 def check_password():
     def password_entered():
@@ -51,7 +51,7 @@ def process_receipt(image_bytes, api_key, expected_items):
     - Deduction 
     - Total
     - Discounted Total
-    - ProductType one of the following categories: food, alcoholic drink, paper product, toy, stationery, home decoration, DIY product, gardening, petrol, drugstore product, cloth, electric device, medicine, other. If not identified use "unknown".
+    - ProductType one of the following categories: food, alcoholic drink, paper product, toy, book, stationery, home decoration, DIY product, gardening, petrol, drugstore product, cloth, electric device, medicine, other. If not identified use "unknown".
     If the receipt contains discount try to extract the discounted price of the certain product as discounted total.
     The name of the product item is before the price of that item.
     """
@@ -206,4 +206,5 @@ if check_password():
             st.stop()
         except (ValueError, TypeError, json.JSONDecodeError) as e:
             st.error("🚫 Receipt processing failed. Please upload a clearer image.")
+
 
